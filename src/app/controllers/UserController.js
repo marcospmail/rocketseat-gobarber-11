@@ -49,6 +49,10 @@ class UserController {
 
     const loggedUser = await User.findByPk(req.userId);
 
+    if (!loggedUser) {
+      return res.status(400).json({ error: 'Invalid user token' });
+    }
+
     if (email !== loggedUser.email) {
       const userExists = await User.findOne({ where: { email } });
 
