@@ -18,8 +18,6 @@ class SchedulerController {
 
     const parsedDate = parseISO(date);
 
-    console.log(parsedDate);
-
     const schedules = await Appointment.findAll({
       where: {
         provider_id: req.userId,
@@ -28,12 +26,12 @@ class SchedulerController {
           [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
         },
       },
-      order: ['date'],
       include: {
         model: User,
         as: 'user',
         attributes: ['id', 'name', 'email'],
       },
+      order: ['date'],
     });
 
     return res.json(schedules);
