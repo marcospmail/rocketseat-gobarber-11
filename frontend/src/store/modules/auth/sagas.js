@@ -27,7 +27,9 @@ export function* signIn({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
+    console.tron.log(err);
     toast.error('Falha na autentição, verifique seus dados');
+
     yield put(signFailure());
   }
 }
