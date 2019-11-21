@@ -63,7 +63,8 @@ export default function Notifications() {
     return () => {
       document.removeEventListener('mousedown', handleGlobalClick, false);
       document.removeEventListener('keyDown', handleGlobalClick, false);
-  }}, []); //eslint-disable-line
+    };
+  }, []); //eslint-disable-line
 
   const hasUnread = useMemo(
     () => !!notifications.find(notification => !notification.read),
