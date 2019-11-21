@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PropTypes from 'prop-types';
 import api from '~/services/api';
 
 import Background from '~/components/Background';
@@ -7,7 +9,7 @@ import Appointment from '~/components/Appointment';
 
 import { Container, Title, List } from './styles';
 
-export default function Dashboard() {
+function Dashboard({ isFocused }) {
   const [appointments, setAppointments] = useState();
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function Dashboard() {
     }
 
     loadAppointments();
-  }, []);
+  }, [isFocused]);
 
   async function handleCancel(id) {
     const response = await api.delete(`appointments/${id}`);
@@ -49,9 +51,21 @@ export default function Dashboard() {
   );
 }
 
+const tabBarIcon = ({ tintColor }) => (
+  <Icon name="event" size={20} color={tintColor} />
+);
+
+tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
+
 Dashboard.navigationOptions = {
   tabBarLabel: 'Agendamentos',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="event" size={20} color={tintColor} />
-  ),
+  tabBarIcon,
 };
+
+Dashboard.propTypes = {
+  isFocused: PropTypes.bool.isRequired,
+};
+
+export default withNavigationFocus(Dashboard);

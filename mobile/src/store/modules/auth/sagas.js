@@ -26,10 +26,7 @@ export function* signIn({ payload }) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     yield put(signInSuccess(token, user));
-
-    // history.push('/dashboard');
   } catch (err) {
-    console.tron.log(err);
     Alert.alert(
       'Falha na autenticação',
       'Houve um erro no login, verifique seus dados'
