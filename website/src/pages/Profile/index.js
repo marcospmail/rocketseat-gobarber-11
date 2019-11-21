@@ -40,7 +40,7 @@ export default function Profile() {
         <Input name="password" type="password" placeholder="Nova senha" />
         <Input
           name="newPassword"
-          type="newPassword"
+          type="password"
           placeholder="Confirme sua nova senha"
         />
         <button type="submit">Atualizar perfil</button>
