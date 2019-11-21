@@ -59,7 +59,7 @@ export const Scroll = styled(PerfectScrollbar)`
 `;
 
 export const Notification = styled.div`
-  color: #fff;
+  color: ${props => (props.unread ? '#fff' : 'rgba(255, 255, 255, 0.6)')};
 
   & + div {
     margin-top: 15px;
