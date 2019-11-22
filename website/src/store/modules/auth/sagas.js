@@ -45,10 +45,11 @@ export function* signUp({ payload }) {
       provider: true,
     });
 
+    toast.success('Usuário criado com sucesso');
+
     history.push('/');
   } catch (err) {
-    toast.error('');
-
+    toast.error('Falha ao criar usuário');
     yield put(signFailure());
   }
 }
