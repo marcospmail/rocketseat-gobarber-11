@@ -3,11 +3,15 @@ import { useSelector } from 'react-redux';
 
 import createRouter from '~/routes';
 
-// import { Container } from './styles';
+import NavigationService from '~/services/navigation';
 
 export default function App() {
   const signed = useSelector(state => state.auth.signed);
   const Routes = createRouter(signed);
 
-  return <Routes />;
+  return (
+    <Routes
+      ref={navigationRef => NavigationService.setNavigator(navigationRef)}
+    />
+  );
 }

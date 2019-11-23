@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+import NavigationService from '~/services/navigation';
 
 import { signInSuccess, signFailure } from './actions';
 import api from '~/services/api';
@@ -46,7 +47,9 @@ export function* signUp({ payload }) {
       password,
     });
 
-    // history.push('/');
+    Alert.alert('Sucesso', 'Novo usuário registrado', [
+      { onPress: () => NavigationService.navigate('SignIn') },
+    ]);
   } catch (err) {
     Alert.alert(
       'Falha na cadastro',
