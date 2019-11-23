@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Text } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'prop-types';
@@ -7,10 +8,10 @@ import api from '~/services/api';
 import Background from '~/components/Background';
 import Appointment from '~/components/Appointment';
 
-import { Container, Title, List } from './styles';
+import { Container, Title, List, NoDataWrapper, NoDataText } from './styles';
 
 function Dashboard({ isFocused }) {
-  const [appointments, setAppointments] = useState();
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     async function loadAppointments() {
@@ -39,13 +40,19 @@ function Dashboard({ isFocused }) {
       <Container>
         <Title>Agendamentos</Title>
 
-        <List
-          data={appointments}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <Appointment onCancel={() => handleCancel(item.id)} data={item} />
-          )}
-        />
+        {appointments.length ? (
+          <List
+            data={appointments}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => (
+              <Appointment onCancel={() => handleCancel(item.id)} data={item} />
+            )}
+          />
+        ) : (
+          <NoDataWrapper>
+            <NoDataText>Nenhum agendamento encontrado</NoDataText>
+          </NoDataWrapper>
+        )}
       </Container>
     </Background>
   );

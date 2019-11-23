@@ -16,3 +16,15 @@ export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { padding: 30 },
 })``;
+
+export const NoDataWrapper = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const NoDataText = styled.Text`
+  font-weight: bold;
+  font-size: 18px;
+  color: 'rgba(255, 255, 255, 0.6)';
+`;
