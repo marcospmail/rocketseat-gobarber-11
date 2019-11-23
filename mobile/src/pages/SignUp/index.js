@@ -74,7 +74,7 @@ export default function SignUp({ navigation }) {
             onSubmitEditing={handleSubmit}
           />
 
-          <SubmitButton onPress={handleSubmit}>Acessar</SubmitButton>
+          <SubmitButton onPress={handleSubmit}>Criar conta</SubmitButton>
         </Form>
 
         <SignLink
