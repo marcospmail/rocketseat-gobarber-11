@@ -16,6 +16,8 @@ import authMiddleware from './app/middlewares/auth';
 const routes = new Router();
 const upload = multer(multerConfig);
 
+routes.post('/', (req, res) => res.send('working...'));
+
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
