@@ -8,50 +8,55 @@ import File from '../models/File';
 
 class SessionController {
   async store(req, res) {
-    const schema = Yup.object().shape({
-      email: Yup.string().required(),
-      password: Yup.string().required(),
-    });
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string().required(),
+        password: Yup.string().required(),
+      });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation fails' });
+      }
 
-    const { email, password } = req.body;
+      const { email, password } = req.body;
 
-    const user = await User.findOne({
-      where: { email },
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
+      const user = await User.findOne({
+        where: { email },
+        include: [
+          {
+            model: File,
+            as: 'avatar',
+            attributes: ['id', 'path', 'url'],
+          },
+        ],
+      });
+
+      if (!user) {
+        return res.status(401).json({ error: 'User not found' });
+      }
+
+      if (!(await user.checkPassword(password))) {
+        return res.status(401).json({ error: 'Password does not match' });
+      }
+
+      const { id, name, avatar, provider } = user;
+
+      return res.json({
+        user: {
+          id,
+          name,
+          email,
+          provider,
+          avatar,
         },
-      ],
-    });
-
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+        token: jwt.sign({ id }, authConfig.secret, {
+          expiresIn: authConfig.expiresIn,
+        }),
+      });
+    } catch (err) {
+      console.log('caiu no erro....');
+      console.log(err);
     }
-
-    if (!(await user.checkPassword(password))) {
-      return res.status(401).json({ error: 'Password does not match' });
-    }
-
-    const { id, name, avatar, provider } = user;
-
-    return res.json({
-      user: {
-        id,
-        name,
-        email,
-        provider,
-        avatar,
-      },
-      token: jwt.sign({ id }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
-    });
   }
 }
 
